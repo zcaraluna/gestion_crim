@@ -17,9 +17,9 @@ export default function FullScreenModal() {
     closeFullscreenModal();
   };
   return (
-    <ComponentCard title="Full Screen Modal">
+    <ComponentCard title="Modal de Pantalla Completa">
       <Button size="sm" onClick={openFullscreenModal}>
-        Open Modal
+        Abrir Modal
       </Button>
       <Modal
         isOpen={isFullscreenModalOpen}
@@ -30,33 +30,28 @@ export default function FullScreenModal() {
         <div className="fixed top-0 left-0 flex flex-col justify-between w-full h-screen p-6 overflow-x-hidden overflow-y-auto bg-white dark:bg-gray-900 lg:p-10">
           <div>
             <h4 className="font-semibold text-gray-800 mb-7 text-title-sm dark:text-white/90">
-              Modal Heading
+              Título del Modal
             </h4>
             <p className="text-sm leading-6 text-gray-500 dark:text-gray-400">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque euismod est quis mauris lacinia pharetra. Sed a
-              ligula ac odio condimentum aliquet a nec nulla. Aliquam bibendum
-              ex sit amet ipsum rutrum feugiat ultrices enim quam.
+              Este es un ejemplo de modal de pantalla completa. Útil para mostrar contenido extenso
+              o formularios complejos que requieren más espacio. El modal ocupa toda la pantalla
+              para una mejor experiencia de usuario.
             </p>
             <p className="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque euismod est quis mauris lacinia pharetra. Sed a
-              ligula ac odio condimentum aliquet a nec nulla. Aliquam bibendum
-              ex sit amet ipsum rutrum feugiat ultrices enim quam odio
-              condimentum aliquet a nec nulla pellentesque euismod est quis
-              mauris lacinia pharetra.
+              Los modales de pantalla completa son ideales para tareas que requieren atención completa
+              del usuario, como la creación de informes detallados, edición de documentos extensos
+              o visualización de información compleja que necesita más espacio para ser presentada adecuadamente.
             </p>
             <p className="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque euismod est quis mauris lacinia pharetra.
+              Puede incluir cualquier tipo de contenido según las necesidades de su aplicación.
             </p>
           </div>
           <div className="flex items-center justify-end w-full gap-3 mt-8">
             <Button size="sm" variant="outline" onClick={closeFullscreenModal}>
-              Close
+              Cerrar
             </Button>
             <Button size="sm" onClick={handleSave}>
-              Save Changes
+              Guardar Cambios
             </Button>
           </div>
         </div>

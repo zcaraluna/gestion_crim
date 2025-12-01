@@ -5,18 +5,17 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Avatars | TailAdmin - Next.js Dashboard Template",
+  title: "Avatares | Sistema de Gestión Criminalística",
   description:
-    "This is Next.js Avatars page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    "Página de avatares del sistema de gestión criminalística",
 };
 
 export default function AvatarPage() {
   return (
     <div>
-      <PageBreadcrumb pageTitle="Avatar" />
+      <PageBreadcrumb pageTitle="Avatares" />
       <div className="space-y-5 sm:space-y-6">
-        <ComponentCard title="Default Avatar">
-          {/* Default Avatar (No Status) */}
+        <ComponentCard title="Avatar por Defecto">
           <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Avatar src="/images/user/user-01.jpg" size="xsmall" />
             <Avatar src="/images/user/user-01.jpg" size="small" />
@@ -26,7 +25,7 @@ export default function AvatarPage() {
             <Avatar src="/images/user/user-01.jpg" size="xxlarge" />
           </div>
         </ComponentCard>
-        <ComponentCard title="Avatar with online indicator">
+        <ComponentCard title="Avatar con indicador en línea">
           <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Avatar
               src="/images/user/user-01.jpg"
@@ -60,7 +59,7 @@ export default function AvatarPage() {
             />
           </div>
         </ComponentCard>
-        <ComponentCard title="Avatar with Offline indicator">
+        <ComponentCard title="Avatar con indicador fuera de línea">
           <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Avatar
               src="/images/user/user-01.jpg"
@@ -93,8 +92,8 @@ export default function AvatarPage() {
               status="offline"
             />
           </div>
-        </ComponentCard>{" "}
-        <ComponentCard title="Avatar with busy indicator">
+        </ComponentCard>
+        <ComponentCard title="Avatar con indicador ocupado">
           <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Avatar
               src="/images/user/user-01.jpg"

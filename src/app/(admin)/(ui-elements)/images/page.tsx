@@ -7,24 +7,23 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Images | TailAdmin - Next.js Dashboard Template",
+  title: "Imágenes | Sistema de Gestión Criminalística",
   description:
-    "This is Next.js Images page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-  // other metadata
+    "Página de imágenes del sistema de gestión criminalística",
 };
 
 export default function Images() {
   return (
     <div>
-      <PageBreadcrumb pageTitle="Images" />
+      <PageBreadcrumb pageTitle="Imágenes" />
       <div className="space-y-5 sm:space-y-6">
-        <ComponentCard title="Responsive image">
+        <ComponentCard title="Imagen Responsiva">
           <ResponsiveImage />
         </ComponentCard>
-        <ComponentCard title="Image in 2 Grid">
+        <ComponentCard title="Imagen en Grid de 2 Columnas">
           <TwoColumnImageGrid />
         </ComponentCard>
-        <ComponentCard title="Image in 3 Grid">
+        <ComponentCard title="Imagen en Grid de 3 Columnas">
           <ThreeColumnImageGrid />
         </ComponentCard>
       </div>

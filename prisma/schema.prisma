@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Tabla de Oficinas/Regionales
+model Oficina {
+  id          String   @id @default(uuid())
+  nombre      String   @unique
+  codigo      String?  @unique // Código único de la oficina (ej: "REG-CDE", "REG-ASU")
+  tipo        String   // "Regional" o "Dirección"
+  descripcion String?
+  activo      Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  usuarios Usuario[]
+
+  @@map("oficinas")
+}
+
+// Tabla de Departamentos
+model Departamento {
+  id          String   @id @default(uuid())
+  nombre      String   @unique
+  codigo      String?  @unique // Código único del departamento
+  descripcion String?
+  activo      Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  usuarios Usuario[]
+
+  @@map("departamentos")
+}
+
+// Tabla de Usuarios
+model Usuario {
+  id              String      @id @default(uuid())
+  username        String      @unique
+  password        String      // Hash bcrypt
+  nombre          String
+  apellido        String
+  grado           String?     // Grado del personal (ej: "Suboficial", "Oficial", etc.)
+  numeroCedula    String?     @unique @map("numero_cedula")
+  numeroCredencial String?    @unique @map("numero_credencial")
+  email           String?
+  telefono        String?
+  
+  // Relaciones
+  // Opcionales para SUPERVISOR_REGIONAL, SUPERVISOR_GENERAL y ADMIN (roles dinámicos)
+  departamentoId  String?     @map("departamento_id")
+  departamento    Departamento? @relation(fields: [departamentoId], references: [id])
+  
+  oficinaId       String?     @map("oficina_id")
+  oficina         Oficina?     @relation(fields: [oficinaId], references: [id])
+  
+  // Roles y estado
+  rol             Rol         @default(OPERADOR)
+  activo          Boolean     @default(true)
+  
+  // Timestamps
+  ultimoAcceso    DateTime?   @map("ultimo_acceso")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@map("usuarios")
+}
+
+enum Rol {
+  OPERADOR                  // Personal asignado a un departamento en una oficina
+  SUPERVISOR_DEPARTAMENTAL  // Supervisor de operadores de un departamento en una oficina
+  SUPERVISOR_REGIONAL       // Supervisor que puede acceder a cualquier departamento de una oficina
+  SUPERVISOR_GENERAL        // Supervisor que puede acceder a cualquier departamento de cualquier oficina
+  ADMIN                     // Administrador con permisos completos
+}
