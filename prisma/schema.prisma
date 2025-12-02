@@ -12,16 +12,18 @@ datasource db {
 
 // Tabla de Oficinas/Regionales
 model Oficina {
-  id          String   @id @default(uuid())
-  nombre      String   @unique
-  codigo      String?  @unique // Código único de la oficina (ej: "REG-CDE", "REG-ASU")
-  tipo        String   // "Regional" o "Dirección"
-  descripcion String?
-  activo      Boolean  @default(true)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid())
+  nombre         String   @unique
+  codigo         String?  @unique // Código único de la oficina (ej: "REG-CDE", "REG-ASU")
+  tipo           String   // "Regional" o "Dirección"
+  descripcion    String?
+  numeroTelefono String?  @map("numero_telefono") // Número corporativo de la Guardia
+  activo         Boolean  @default(true)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   usuarios Usuario[]
+  informes InformeCriminalistico[]
 
   @@map("oficinas")
 }
@@ -37,6 +39,7 @@ model Departamento {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   usuarios Usuario[]
+  informes InformeCriminalistico[]
 
   @@map("departamentos")
 }
@@ -62,6 +65,11 @@ model Usuario {
   oficinaId       String?     @map("oficina_id")
   oficina         Oficina?     @relation(fields: [oficinaId], references: [id])
   
+  // Relaciones con Informes
+  informesCreados InformeCriminalistico[] @relation("InformesCreados")
+  informesAsignados InformeCriminalistico[] @relation("InformesAsignados")
+  informesAprobados InformeCriminalistico[] @relation("InformesAprobados")
+  
   // Roles y estado
   rol             Rol         @default(OPERADOR)
   activo          Boolean     @default(true)
@@ -81,3 +89,70 @@ enum Rol {
   SUPERVISOR_GENERAL        // Supervisor que puede acceder a cualquier departamento de cualquier oficina
   ADMIN                     // Administrador con permisos completos
 }
+
+enum EstadoInforme {
+  BORRADOR
+  EN_REVISION
+  APROBADO
+  RECHAZADO
+}
+
+// Tabla de Informes Criminalísticos
+model InformeCriminalistico {
+  id          String   @id @default(uuid())
+  
+  // Numeración del informe
+  numeroInforme String? @unique @map("numero_informe") // Formato: DEP-YYYY-####
+  
+  // Relaciones
+  departamentoId String @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  
+  oficinaId      String @map("oficina_id")
+  oficina        Oficina @relation(fields: [oficinaId], references: [id])
+  
+  usuarioCreadorId String @map("usuario_creador_id")
+  usuarioCreador   Usuario @relation("InformesCreados", fields: [usuarioCreadorId], references: [id])
+  
+  usuarioAsignadoId String? @map("usuario_asignado_id")
+  usuarioAsignado   Usuario? @relation("InformesAsignados", fields: [usuarioAsignadoId], references: [id])
+  
+  // Estado y control
+  estado        EstadoInforme @default(BORRADOR)
+  version       Int      @default(1)
+  informePadreId String? @map("informe_padre_id")
+  informePadre  InformeCriminalistico? @relation("VersionesInforme", fields: [informePadreId], references: [id])
+  informesHijos InformeCriminalistico[] @relation("VersionesInforme")
+  
+  // Datos de Recepción del Pedido (sección inicial)
+  fechaRecepcion DateTime? @map("fecha_recepcion")
+  horaRecepcion  String? @map("hora_recepcion") // Formato: "09:15"
+  numeroTelefonoRecepcion String? @map("numero_telefono_recepcion")
+  gradoSolicitante String? @map("grado_solicitante")
+  nombreSolicitante String? @map("nombre_solicitante")
+  generoSolicitante String? @map("genero_solicitante") // "masculino" o "femenino"
+  categoriaComisaria String? @map("categoria_comisaria") // Comisaría, Subcomisaría, Puesto Policial
+  numeroComisaria String? @map("numero_comisaria")
+  departamentoComisaria String? @map("departamento_comisaria")
+  ciudadComisaria String? @map("ciudad_comisaria")
+  comisariaTextoCompleto String? @map("comisaria_texto_completo") // Texto concatenado completo
+  tipoHecho String? @map("tipo_hecho") // Ej: "SUP. HECHO DE HURTO AGRAVADO"
+  jurisdiccion String? // Jurisdicción del hecho
+  
+  // Contenido completo del informe (JSON flexible para otras secciones)
+  contenido Json? // Estructura flexible para otras secciones del informe
+  
+  // Control de aprobación
+  fechaAprobacion DateTime? @map("fecha_aprobacion")
+  aprobadoPorId   String? @map("aprobado_por_id")
+  aprobadoPor     Usuario? @relation("InformesAprobados", fields: [aprobadoPorId], references: [id])
+  observaciones   String?
+  
+  // Timestamps
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  @@map("informes_criminalisticos")
+}
+
+// Actualizar relación en Departamento

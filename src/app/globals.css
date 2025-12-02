@@ -176,12 +176,18 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -189,6 +195,8 @@
   }
   body {
     @apply relative font-normal font-outfit z-1 bg-gray-50;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 }
 
