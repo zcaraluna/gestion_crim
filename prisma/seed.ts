@@ -14,11 +14,11 @@ async function main() {
   // Crear Oficinas/Regionales
   const oficinas = [
     { nombre: 'Dirección de Criminalística', codigo: 'DIR-CRIM', tipo: 'Dirección' },
-    { nombre: 'Regional Asunción', codigo: 'REG-ASU', tipo: 'Regional' },
-    { nombre: 'Regional Central', codigo: 'REG-CEN', tipo: 'Regional' },
-    { nombre: 'Regional Caaguazú', codigo: 'REG-CAA', tipo: 'Regional' },
-    { nombre: 'Regional Itapúa', codigo: 'REG-ITA', tipo: 'Regional' },
-    { nombre: 'Regional Ciudad del Este', codigo: 'REG-CDE', tipo: 'Regional' },
+    { nombre: 'Departamento de Criminalística Asunción', codigo: 'REG-ASU', tipo: 'Regional' },
+    { nombre: 'Departamento de Criminalística Central', codigo: 'REG-CEN', tipo: 'Regional' },
+    { nombre: 'Departamento de Criminalística Caaguazú', codigo: 'REG-CAA', tipo: 'Regional' },
+    { nombre: 'Departamento de Criminalística Itapúa', codigo: 'REG-ITA', tipo: 'Regional' },
+    { nombre: 'Departamento de Criminalística Ciudad del Este', codigo: 'REG-CDE', tipo: 'Regional' },
   ];
 
   console.log('📁 Creando oficinas...');
@@ -115,46 +115,46 @@ async function main() {
 
   // Crear usuario user3 (SUPERVISOR_REGIONAL - sin departamento/oficina asignada)
   const user3Password = await bcrypt.hash('user123', 10);
-  await prisma.usuario.upsert({
+    await prisma.usuario.upsert({
     where: { username: 'user3' },
-    update: {},
-    create: {
+      update: {},
+      create: {
       username: 'user3',
       password: user3Password,
       nombre: 'Usuario',
       apellido: 'Tres',
-      grado: 'Comisario',
+        grado: 'Comisario',
       numeroCedula: '1000003',
       numeroCredencial: 'USER-003',
       email: 'user3@crimigestor.gov.py',
       telefono: '+595 981 000003',
       departamentoId: null,
       oficinaId: null,
-      rol: Rol.SUPERVISOR_REGIONAL,
-    },
-  });
+        rol: Rol.SUPERVISOR_REGIONAL,
+      },
+    });
   console.log('✅ Usuario SUPERVISOR_REGIONAL creado (username: user3, password: user123)');
 
   // Crear usuario user4 (SUPERVISOR_GENERAL - sin departamento/oficina asignada)
   const user4Password = await bcrypt.hash('user123', 10);
-  await prisma.usuario.upsert({
+    await prisma.usuario.upsert({
     where: { username: 'user4' },
-    update: {},
-    create: {
+      update: {},
+      create: {
       username: 'user4',
       password: user4Password,
       nombre: 'Usuario',
       apellido: 'Cuatro',
-      grado: 'Comisario Principal',
+        grado: 'Comisario Principal',
       numeroCedula: '1000004',
       numeroCredencial: 'USER-004',
       email: 'user4@crimigestor.gov.py',
       telefono: '+595 981 000004',
       departamentoId: null,
       oficinaId: null,
-      rol: Rol.SUPERVISOR_GENERAL,
-    },
-  });
+        rol: Rol.SUPERVISOR_GENERAL,
+      },
+    });
   console.log('✅ Usuario SUPERVISOR_GENERAL creado (username: user4, password: user123)');
 
   // Crear usuario admin (ADMIN - sin departamento/oficina asignada)

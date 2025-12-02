@@ -37,7 +37,7 @@ function SelectDepartmentContent() {
       if (user.rol === 'SUPERVISOR_REGIONAL') {
         // Si tiene oficina asignada, usar esa
         if (user.oficinaId) {
-          fetchDepartamentos(user.oficinaId);
+        fetchDepartamentos(user.oficinaId);
           setOficina({ id: user.oficinaId, nombre: user.oficinaNombre || '' });
         } else if (oficinaId) {
           // Si no tiene oficina pero viene en params, usar esa
@@ -52,7 +52,7 @@ function SelectDepartmentContent() {
       // Supervisor General o Admin: usar oficinaId del query param
       else if (user.rol === 'SUPERVISOR_GENERAL' || user.rol === 'ADMIN') {
         if (oficinaId) {
-          fetchOficinaAndDepartamentos(oficinaId);
+        fetchOficinaAndDepartamentos(oficinaId);
         } else {
           // Si no hay oficinaId en los params, redirigir a select-office
           router.push('/select-office');

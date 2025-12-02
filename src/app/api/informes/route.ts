@@ -76,15 +76,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generar número de informe
-    const año = new Date(data.fechaRecepcion).getFullYear();
-    const codigoDepartamento = await obtenerCodigoDepartamento(data.departamentoId);
-    const numeroInforme = await generarNumeroInforme(codigoDepartamento, año);
-
-    // Crear el informe
+    // Crear el informe (sin número de informe hasta que se finalice)
     const informe = await prisma.informeCriminalistico.create({
       data: {
-        numeroInforme,
+        numeroInforme: null, // El número se asignará cuando se finalice/apruebe
         departamentoId: data.departamentoId,
         oficinaId: data.oficinaId,
         usuarioCreadorId: user.id,

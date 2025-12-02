@@ -71,7 +71,7 @@ function DashboardContent() {
         if (!selectedOficinaId || !selectedDepartamentoId) {
           // Si no tienen oficina, ir a select-office
           if (!selectedOficinaId) {
-            router.push('/select-office');
+        router.push('/select-office');
             return;
           }
           // Si tienen oficina pero no departamento, ir a select-department
